@@ -89,12 +89,14 @@ def busca_tipo_prestador_bairro_especialidade(id_tipo_prestador=None, id_bairro=
               'tb_uf u ON (u.id_uf = mu.id_uf) join ' \
               'tb_plano pl ON (pl.id_plano = u.id_plano) ' \
               'where 1 = 1'
+        ##sql+= ' and tpbe.id_tip_prest_bai_espec > x'
         if id_tipo_prestador is not None:
             sql += ' and tpbe.id_tipo_prestador = ' + str(id_tipo_prestador)
         if id_bairro is not None:
             sql += ' and tpbe.id_bairro = ' + str(id_bairro)
         if id_especialidade is not None:
             sql += ' and tpbe.id_especialidade = ' + str(id_especialidade)
+        sql += ' order by tpbe.id_tip_prest_bai_espec'
         cursor.execute(sql)
         prestador_bairro_especialidade = cursor.fetchall()
         con.close()

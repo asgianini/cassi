@@ -6,6 +6,8 @@ Created on Sun May 24 23:23:35 2020
 """
 
 #from cassi_planos import carrega_plano
+from datetime import datetime
+
 from cassi_ufs import carrega_uf
 from cassi_municipios import carrega_municipio
 from cassi_bairros import carrega_bairro
@@ -21,8 +23,9 @@ import timeit
 
 ## Iniciar log
 
-
+print(datetime.now())
 inicio = timeit.default_timer()
+
 
 
 #carrega_plano()
@@ -37,6 +40,7 @@ inicio = timeit.default_timer()
 #carrega_tipo_prestador_bairro_especialidade_temp() # 197901 segundos - 7296 s
 # Depois de 74430 segundos deu o seguinte erro
 carrega_lista_prestador()
+# 10796 segundos - 10.811 tpbe (não valeu)
 
 
 fim = timeit.default_timer()
