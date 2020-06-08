@@ -48,6 +48,67 @@ def grava_tipo_prestador_bairro_especialidade(id_tipo_prestador, id_bairro, id_e
         
     return erro, msg_erro
 
+def busca_tipo_prestador_bairro_especialidade(id_tipo_prestador=None, id_bairro=None, id_especialidade=None):
+    '''Busca Tipos Prestador Bairro Especialidade no banco de dados
+
+    Parameters
+    ----------
+    id_tipo_prestador : int
+        Identificador do Tipo Prestador (opcional).
+    id_bairro : int
+        Identificador do Bairro (opcional).
+    id_especialidade : int
+        Identificador da Especialidade (opcional).
+
+    Returns
+    -------
+    erro : string
+        Indicador de erro.
+    msg_erro : string
+        Mensagem de erro formatada.
+    prestador_bairro_especialidade : list
+        Lista de Tipo Prestador Bairro Especialidade.
+    '''
+    erro = 0
+    msg_erro = None
+    prestador_bairro_especialidade = None
+    try:
+        con = conecta_banco()
+        cursor = con.cursor()
+        sql = 'select pl.id_plano, pl.nm_plano, u.sg_uf, mu.cd_municipio, mu.nm_municipio, ' \
+              'b.id_bairro, b.nm_bairro, tp.id_tipo_prestador, tp.cd_tipo_prestador, ' \
+              'tp.nm_tipo_prestador, e.id_especialidade, e.cd_especialidade, ' \
+              'e.nm_especialidade ' \
+              'from tb_bairro b join ' \
+              'tb_tipo_prestador_bairro tpb ON (tpb.id_bairro = b.id_bairro) join ' \
+              'tb_tipo_prestador tp ON (tp.id_tipo_prestador = tpb.id_tipo_prestador) join ' \
+              'tb_tipo_prestador_bairro_especialidade tpbe ON (tpbe.id_tipo_prestador = ' \
+              'tpb.id_tipo_prestador AND tpbe.id_bairro = tpb.id_bairro) join ' \
+              'tb_especialidade e ON (e.id_especialidade = tpbe.id_especialidade) join ' \
+              'tb_municipio mu ON (mu.id_municipio = b.id_municipio) join ' \
+              'tb_uf u ON (u.id_uf = mu.id_uf) join ' \
+              'tb_plano pl ON (pl.id_plano = u.id_plano) ' \
+              'where 1 = 1'
+        if id_tipo_prestador is not None:
+            sql += ' and tpbe.id_tipo_prestador = ' + str(id_tipo_prestador)
+        if id_bairro is not None:
+            sql += ' and tpbe.id_bairro = ' + str(id_bairro)
+        if id_especialidade is not None:
+            sql += ' and tpbe.id_especialidade = ' + str(id_especialidade)
+        cursor.execute(sql)
+        prestador_bairro_especialidade = cursor.fetchall()
+        con.close()
+    except Exception as e:
+        erro = 1
+        msg_erro = gera_msg_erro(e, f'Falhou na consulta do Tipo Prestador Bairro Especialidade: Tipo Prestador = '
+                                    f'{str(id_tipo_prestador)}, Bairro = {str(id_bairro)}, '
+                                    f'Espacialidade = {str(id_especialidade)}'
+                                 )
+
+    return erro, msg_erro, prestador_bairro_especialidade
+
+
+
 
 def carrega_tipo_prestador_bairro_especialidade():
 

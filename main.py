@@ -15,7 +15,7 @@ from cassi_tipos_prestador_bairros import carrega_tipo_prestador_bairro
 from cassi_tipos_prestador_bairros_especialidades_temp import carrega_tipo_prestador_bairro_especialidade_temp
 
 from cassi_municipios_temp import carrega_municipio_temp
-
+from cassi_lista_prestadores import carrega_lista_prestador
 import timeit
 
 
@@ -34,17 +34,11 @@ inicio = timeit.default_timer()
 #carrega_tipo_prestador_bairro() # 15558 segundos - 28685 segundos
 
 #carrega_especialidade() # 40 segundos
-carrega_tipo_prestador_bairro_especialidade_temp() # 197901 segundos - 7296 s
+#carrega_tipo_prestador_bairro_especialidade_temp() # 197901 segundos - 7296 s
 # Depois de 74430 segundos deu o seguinte erro
-####################################################################
-#Falhou no requests.get
-#Função: busca_pagina
-#HTTPSConnectionPool(host='www.redecredenciada.mobi', port=443): Max retries exceeded with url: /mobile-guia/v2/ws-especialidade.php?id_operadora=19&id_cidade=3549805&id_plano=8&id_estado=SP&bairro=VILA+AURORA&id_tipo_prestador=47&formatacao_texto=2&_=1590376516866&force_especialidade=S (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x00000201B813E108>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+carrega_lista_prestador()
 
-# O último registro:
-# ESPECIALIDADE         TIPO PRESTADOR                          BAIRRO          MUNICIPIO               UF
-#"OTORRINOLARINGOLOGIA"	"HOSPITAL ESPECIALIZADO / CARDIOLOGIA"	"Vila Aurora"	"São Jose do Rio Preto"	"SP"
-# 43                     1	                                      5648	
+
 fim = timeit.default_timer()
 print ('duracao: %f' % (fim - inicio))
 
